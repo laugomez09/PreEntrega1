@@ -1,8 +1,92 @@
 body {
-    background-color: black;
+    background-color: rgb(7, 1, 7);
     text-align: center;
 }
 
-h1 {
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+div{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+button{
+    display: flex;
+    flex-direction: row;
+}
+
+h2{
     color: white;
+}
+
+.runny {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    object-fit: contain;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    align-items: space-evenly;
+    gap: 20px;
+}
+
+li {
+    background-color: white;
+    width: 90px;
+    height: 30px;
+    border-radius: 40%;
+    text-align: center;
+    align-items: center;
+}
+
+
+form{
+    display:flex;
+    flex-direction: row;
+    align-items: space-around;
+}
+
+.modal-body{
+    align-items: center;
+}
+
+.row_g-0{
+    text-align: center;
+    align-items: center;
+}
+
+.text-center{
+    background-color: black;
+    color: white;
+}
+
+hr{
+    width: 100%;
+    height: auto;
+    background-color: white;
+    color: white;
+}
+
+/* Primer Html*/
+.card {
+    width: 18rem;
+    
+    text-align: center;
+
+}
+
+.seccion1 {
+    display: flex;
+    justify-content: space-around;
+    gap: 100px;
 }

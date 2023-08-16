@@ -1,139 +1,283 @@
-alert("¡Bienvenidos al Kiosco Mari!");
-let rta1 = prompt("Desea llevar algo?\nSi o No").toLowerCase();
-if (rta1 == "si") {
-    class Producto {
-        constructor(id, nombre, precio, cantidad) {
-            this.id = id
-            this.nombre = nombre
-            this.precio = precio
-            this.cantidad = cantidad
-        }
+class Producto {
 
-        aumentarCantidad(cantidad) {
-            this.cantidad = this.cantidad + cantidad
-        }
-
-        descripcion() {
-            return "id: " + this.id +
-                "\nnombre: " + this.nombre +
-                "\nprecio: " + this.precio
-        }
-
-        descripcionDeCompra() {
-            return "nombre: " + this.nombre +
-                "\nprecio: " + this.precio +
-                "\ncantidad: " + this.cantidad
-        }
-        cargarProductos(productos) {
-            let listaProductos = []
-            productos.map((producto) => listaProductos.push(producto))
-            return listaProductos
-        }
+    constructor({ id, nombre, precio, descripcion, img }) {
+        this.id = id
+        this.nombre = nombre
+        this.precio = precio
+        this.cantidad = 1
+        this.descripcion = descripcion
+        this.img = img
     }
 
-    class ProductoControlador {
-        constructor() {
-            this.listaProductos = []
-        }
-
-        agregar(producto) {
-            this.listaProductos.push(producto)
-        }
-
-        buscarProductoPorID(id) {
-            return this.listaProductos.find(producto => producto.id == id)
-        }
-
-        mostrarProductos() {
-            let listaEnTexto = ""
-            this.listaProductos.forEach(producto => {
-                listaEnTexto = listaEnTexto + producto.descripcion() + "\n---------------------\n"
-            })
-            alert("Productos disponibles:\n" + listaEnTexto)
-        }
+    aumentarCantidad() {
+        this.cantidad++
     }
 
-    class Carrito {
-        constructor() {
-            this.listaCarrito = []
+    disminuirCantidad() {
+        if (this.cantidad > 1) {
+            this.cantidad--
+            return true
         }
 
-        agregar(producto, cantidad) {
-            let existe = this.listaCarrito.some(el => el.id == producto.id)
+        return false
+    }
 
-            if (existe) {
-                producto.aumentarCantidad(cantidad)
-            } else {
+    descripcionHTMLCarrito() {
+        return `
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row_g-0">
+                <div class="col-md-4">
+                    <img src="${this.img}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">${this.nombre}</h5>
+                        <p class="card-text">Cantidad: <button class="btn btn-dark" id="minus-${this.id}"><i class="fa-solid fa-minus fa-1x"></i></button>${this.cantidad}<button class="btn btn-dark" id="plus-${this.id}"><i class="fa-solid fa-plus"></i></button> </p>
+                        <p class="card-text">Precio: $${this.precio}</p>
+                        <button class="btn btn-danger" id="eliminar-${this.id}"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    }
 
-                producto.aumentarCantidad(cantidad)
-                this.listaCarrito.push(producto)
-                console.log('listaCarrito ', this.listaCarrito)
+    descripcionHTML() {
+        return `<div class="card"  >
+        <img src="${this.img}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h3 class="card-title">${this.nombre}</h3>
+            <p class="card-text">${this.descripcion}</p>
+            <h4 class="card-text">$${this.precio}</h4>
+            <button class="btn btn-primary" id="ap-${this.id}">Añadir al carrito</button>
+        </div>
+    </div>
+        `
+    }
+}
+
+class Carrito {
+    constructor() {
+        this._listaCarrito = []
+        this._contenedor_carrito = document.getElementById('contenedor_carrito')
+        this._total = document.getElementById('total')
+        this._finalizar_compra = document.getElementById("finalizar_compra")
+        this._vaciar_carrito = document.getElementById("vaciar_carrito")
+        this._keyStorage = "listaCarrito"
+    }
+    
+    levantarStorage() {
+        //this._listaCarrito = JSON.parse(localStorage.getItem("listaCarrito")) || []
+        this._listaCarrito = JSON.parse(localStorage.getItem(this._keyStorage)) || []
+
+        if (this._listaCarrito.length > 0) {
+            let listaAuxiliar = []
+
+            for (let i = 0; i < this._listaCarrito.length; i++) {
+                //pasa de objeto literal a una instancia de Producto
+                let productoDeLaClaseProducto = new Producto(this._listaCarrito[i])
+                listaAuxiliar.push(productoDeLaClaseProducto)
+                //id, nombre, precio, descripcion, img
+                //const element2 = new Producto(this._listaCarrito[i].id, this._listaCarrito[i].nombre, this._listaCarrito[i].precio, this._listaCarrito[i].descripcion, this._listaCarrito[i].img )
+
             }
 
+            this._listaCarrito = listaAuxiliar
         }
-
-        mostrarProductos() {
-            let listaEnTexto = "Carrito de compras:\n"
-            this.listaCarrito.forEach(producto => {
-                listaEnTexto = listaEnTexto + producto.descripcionDeCompra() + "\n--------------\n"
-
-            })
-            return listaEnTexto
+        /*
+        let listaCarritoJSON = localStorage.getItem("listaCarrito")
+        if(listaCarritoJSON){
+            this._listaCarrito = JSON.parse(listaCarritoJSON)
+        }else{
+            this._listaCarrito = []
         }
+        */
+    }
 
-        calcularTotal() {
-            return this.listaCarrito.reduce((acumulador, producto) => acumulador + producto.precio * producto.cantidad, 0)
-        }
+    guardarEnStorage() {
+        let listaCarritoJSON = JSON.stringify(this._listaCarrito)
+        //localStorage.setItem("listaCarrito", listaCarritoJSON)
+        localStorage.setItem(this._keyStorage, listaCarritoJSON)
+    }
 
-        totalConDescuento() {
-            return this.calcularTotal() * 0.9
+    agregar(productoAgregar) {
+        //this._listaCarrito.push(productoAgregar)
+        let existeElProducto = this._listaCarrito.some(producto => producto.id == productoAgregar.id)
+
+        if (existeElProducto) {
+            let producto = this._listaCarrito.find(producto => producto.id == productoAgregar.id)
+            producto.cantidad = producto.cantidad + 1
+        } else {
+            this._listaCarrito.push(productoAgregar)
         }
     }
 
-    const p = new ProductoControlador()
-    const CARRITO = new Carrito()
-    const PRODUCTOS = new Producto()
-
-    p.agregar(new Producto(1, "jamon", 1500, 0))
-    p.agregar(new Producto(2, "queso", 1500, 0))
-    p.agregar(new Producto(3, "pan", 800, 0))
-    p.agregar(new Producto(4, "cigarrillos", 2500, 0))
-    p.agregar(new Producto(5, "gaseosa", 1200, 0))
-    p.agregar(new Producto(6, "chicles", 500, 0))
-
-    let rta
-
-    let seleccion = prompt("Desea comprar algun producto? (si o no)\nSi desea comprar tendra un 10% de descuento en todos los productos.").toLowerCase()
-
-    while (seleccion != "si" && seleccion != "no") {
-        alert("Por favor ingrese si o no")
-        seleccion = prompt("Desea comprar algun producto? (si o no)")
+    eliminar(productoEliminar) {
+        let producto = this._listaCarrito.find(producto => producto.id == productoEliminar.id)
+        let indice = this._listaCarrito.indexOf(producto)
+        this._listaCarrito.splice(indice, 1)
     }
-    if (seleccion == "si") {
-        do {
-            p.mostrarProductos()
-            let opcion = Number(prompt("Ingrese el ID del producto que desea agregar"))
-            let producto = p.buscarProductoPorID(opcion)
-            let cantidad = Number(prompt("Ingrese la cantidad del producto seleccionado que desea"))
-            CARRITO.agregar(producto, cantidad)
-            alert("El producto fué añadido exitosamente: ")
-            CARRITO.mostrarProductos()
 
-            rta = prompt("Ingrese 'ESC' para salir").toUpperCase()
-        } while (rta != "ESC")
-
-        alert("El ticket es:  \n" + CARRITO.mostrarProductos() + "\nPrecio TOTAL es de:  " + CARRITO.calcularTotal() + "\nEl precio FINAL con descuento es de:  " + CARRITO.totalConDescuento() + "\n¡Muchas gracias por la visita!")
-        /*alert("El total de su compra con descuento ed 10% es de: " + CARRITO.totalConDescuento())*/
-        /*let total_para_descuento = Carrito.calcularTotal()
-        function totalConDescuento(total_para_descuento) {
-            return total_para_descuento * 0.9
-        }
-        alert("El total de la compra con el descuento del 10% qquedaria en:  " + total_para_descuento())*/
-
-    } else {
-        alert("Muchas gracias por su visita.")
+    _limpiarContenedorCarrito() {
+        this._contenedor_carrito.innerHTML = ""
     }
-} else {
-    alert("Muchas gracias por su visita.")
+
+    _eventoBotonEliminarProducto(producto){
+        let btn_eliminar = document.getElementById(`eliminar-${producto.id}`)
+
+        btn_eliminar.addEventListener("click", () => {
+            this.eliminar(producto)
+            this.guardarEnStorage()
+            this.mostrarProductos()
+        })
+    }
+
+    _eventoBotonAumentarCantidad(producto){
+        let btn_plus = document.getElementById(`plus-${producto.id}`)
+
+        btn_plus.addEventListener("click", () => {
+            producto.aumentarCantidad()
+            this.mostrarProductos()
+        })
+    }
+
+    _eventoBotonDisminuirCantidad(producto){
+        let btn_minus = document.getElementById(`minus-${producto.id}`)
+        btn_minus.addEventListener("click", () => {
+            if (producto.disminuirCantidad()) {
+                this.mostrarProductos()
+            }
+        })
+    }
+
+    mostrarProductos() {
+        this._limpiarContenedorCarrito()
+
+        this._listaCarrito.forEach(producto => {
+            this._contenedor_carrito.innerHTML += producto.descripcionHTMLCarrito()
+        })
+
+        //damos evento al botón "Eliminar producto del carrito"
+        this._listaCarrito.forEach(producto => {
+
+            this._eventoBotonEliminarProducto(producto)
+            this._eventoBotonAumentarCantidad(producto)
+            this._eventoBotonDisminuirCantidad(producto)
+
+        })
+
+        this._total.innerHTML = "Precio Total: $" + this._calcular_total()
+    }
+
+    _calcular_total() {
+        return this._listaCarrito.reduce((acumulador, producto) => acumulador + producto.precio * producto.cantidad, 0)
+    }
+
+    eventoFinalizarCompra() {
+        this._finalizar_compra.addEventListener("click", () => {
+
+            if (this._listaCarrito.length > 0) {
+                let precio_total = this._calcular_total()
+                //limpiar el carrito
+                this._listaCarrito = []
+                //limpiar el storage
+                localStorage.removeItem(this._keyStorage)
+                //total
+                this._limpiarContenedorCarrito()
+                this._total.innerHTML = ""
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: `¡La compra se registró con éxito por un total de:  $${precio_total}`,
+                    text: "Para más detalle, revise su e-mail",
+                    timer: 3000
+                  })
+
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: '¡Debes añadir productos para realizar la compra!',
+                    timer: 3000
+                  })
+            }
+        })
+    }
+
+    eventoVaciarCarrito(){
+        this._vaciar_carrito.addEventListener("click", ()=>{
+            this._listaCarrito = []
+            this._limpiarContenedorCarrito()
+            localStorage.clear()
+            this.mostrarProductos()
+        })
+    }
 }
-alert
+
+class ProductoController {
+    constructor() {
+        this.listaProductos = []
+        this.contenedor_productos = document.getElementById("contenedor_productos")
+    }
+
+    cargarProductos() {
+        //Instancias de Producto
+        const p1 = new Producto({ id: 1, nombre: "Conjunto Remera Y Short Deportivo", precio: 7000, descripcion: "Conjunto de short y remera de tela set deportivo. Para entrenamiento o practicas de deporte diverso. Muy comodo y estirable", img: "https://http2.mlstatic.com/D_NQ_NP_752644-MLA49141281424_022022-O.webp" })
+        const p2 = new Producto({ id: 2, nombre: "Buzo Nike Dri-Fit Academy", precio: 15000, descripcion: "El Buzo Nike Dri-Fit Academy está pensando para quienes aman combinar un look deportivo y uno casual. Está elaborado en poliéster y se adapta fácilmente a tu cuerpo para acompañarte a donde vayas", img: "https://www.dexter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dw852f334f/products/NI_CW6110-010/NI_CW6110-010-1.JPG" })
+        //const p2 = new Producto(2, "ryzen 5", 150000, "un producto de gama media", "https://m.media-amazon.com/images/I/51f2hkWjTlL.__AC_SX300_SY300_QL70_ML2_.jpg")
+        const p3 = new Producto({ id: 3,nombre:  "Pantalón deportivo adiddas Tiro 19", precio: 16000, descripcion: "Este pantalón adidas Tiro te lleva al campo de entrenamiento y más allá. Incorpora la tecnología de absorción AEROREADY que mantiene tu piel seca hasta en los días más intensos.", img: "https://http2.mlstatic.com/D_NQ_NP_661942-MLA42902589147_072020-O.webp" })
+        //const p3 = new Producto(3, "ryzen 7", 300000, "un producto de gama alta", "https://m.media-amazon.com/images/I/51D3DrDmwkL.__AC_SX300_SY300_QL70_ML2_.jpg")
+        
+
+        this.agregar(p1)
+        this.agregar(p2)
+        this.agregar(p3)
+    }
+
+    agregar(producto) {
+        this.listaProductos.push(producto)
+    }
+
+    eventoAgregarAlCarrito(){
+        //damos evento al botón "añadir al carrito"
+        this.listaProductos.forEach(producto => {
+
+            const btn = document.getElementById(`ap-${producto.id}`)
+
+            btn.addEventListener("click", () => {
+                carrito.agregar(producto)
+                carrito.guardarEnStorage()
+                carrito.mostrarProductos()
+                Toastify({
+                    avatar: `${producto.img}`,
+                    text: `¡${producto.nombre} añadido!`,
+                    duration: 3000,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    
+                  }).showToast();
+            })
+        })
+    }
+
+    mostrarProductos() {
+        
+        this.listaProductos.forEach(producto => {
+            this.contenedor_productos.innerHTML += producto.descripcionHTML()
+        })
+
+        this.eventoAgregarAlCarrito()
+    }
+}
+
+//Instancia de Carrito | Es para los productos que el cliente escoja
+const carrito = new Carrito()
+carrito.levantarStorage()
+carrito.mostrarProductos()
+//quedan a la escucha del 'click'
+carrito.eventoFinalizarCompra()
+carrito.eventoVaciarCarrito()
+
+//Instancia de ProductoController - Gestiona todos los productos, es decir: mostrar, calcularTotal
+const controlador_productos = new ProductoController()
+controlador_productos.cargarProductos()
+controlador_productos.mostrarProductos()
