@@ -1,12 +1,13 @@
 class Producto {
 
-    constructor({ id, nombre, precio, descripcion, img }) {
+    constructor({ id, nombre, precio, descripcion, img, img2 }) {
         this.id = id
         this.nombre = nombre
         this.precio = precio
         this.cantidad = 1
         this.descripcion = descripcion
         this.img = img
+        this.img2 = img2
     }
 
     aumentarCantidad() {
@@ -42,12 +43,29 @@ class Producto {
     }
 
     descripcionHTML() {
-        return `<div class="card"  >
-        <img src="${this.img}" class="card-img-top" alt="...">
+        return `<div class="card">
+        <div id="carouselExample" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="${this.img}" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="${this.img2}" class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
         <div class="card-body">
-            <h2 class="card-title">${this.nombre}</h2>
+            <h3 class="card-title">${this.nombre}</h3>
             <p class="card-text">${this.descripcion}</p>
-            <h3 class="card-text">$${this.precio}</h3>
+            <h4 class="card-text">$${this.precio}</h4>
             <button class="btn btn-primary" id="ap-${this.id}">Añadir al carrito</button>
         </div>
     </div>
@@ -128,14 +146,6 @@ class Carrito {
             this.eliminar(producto)
             this.guardarEnStorage()
             this.mostrarProductos()
-            Toastify({
-                avatar: `${producto.img}`,
-                text: `¡${producto.nombre} se ha eliminado!`,
-                duration: 3000,
-                gravity: "bottom", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-
-            }).showToast();
         })
     }
 
@@ -196,8 +206,8 @@ class Carrito {
                     position: 'center',
                     icon: 'success',
                     title: `¡La compra se registró con éxito por un total de:  $${precio_total}`,
+                    text: "Para más detalle, revise su e-mail",
                     timer: 3000
-
                 })
 
             } else {
@@ -217,22 +227,6 @@ class Carrito {
             this._limpiarContenedorCarrito()
             localStorage.clear()
             this.mostrarProductos()
-            if (this._listaCarrito.length >= 0){
-                Toastify({
-                    text: `No hay contenido en el carrito para vaciar`,
-                    duration: 3000,
-                    gravity: "bottom",
-                    position: "right",
-                }).showToast()
-            }else{
-                Toastify({
-                    text: `Se ha vaciado el carrito`,
-                    duration: 3000,
-                    gravity: "bottom",
-                    position: "right",
-                })
-
-            }
         })
     }
 }
@@ -245,15 +239,16 @@ class ProductoController {
 
     cargarProductos() {
         //Instancias de Producto
-        const p1 = new Producto({ id: 1, nombre: "Conjunto Remera Y Short Deportivo", precio: 7000, descripcion: "Conjunto de short y remera de tela set deportivo. Para entrenamiento o practicas de deporte diverso. Muy comodo y estirable", img: "https://http2.mlstatic.com/D_NQ_NP_752644-MLA49141281424_022022-O.webp" })
-        const p2 = new Producto({ id: 2, nombre: "Buzo Nike Dri-Fit Academy", precio: 15000, descripcion: "El Buzo Nike Dri-Fit Academy está pensando para quienes aman combinar un look deportivo y uno casual. Está elaborado en poliéster y se adapta fácilmente a tu cuerpo para acompañarte a donde vayas", img: "https://www.dexter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dw852f334f/products/NI_CW6110-010/NI_CW6110-010-1.JPG" })
-        const p3 = new Producto({ id: 3, nombre: "Pantalón deportivo adiddas Tiro 19", precio: 16000, descripcion: "Este pantalón adidas Tiro te lleva al campo de entrenamiento y más allá. Incorpora la tecnología de absorción AEROREADY que mantiene tu piel seca hasta en los días más intensos.", img: "https://http2.mlstatic.com/D_NQ_NP_661942-MLA42902589147_072020-O.webp" })
+        const p1 = new Producto({ id: 1, nombre: "Top deportivo espalda cruzada", precio: 10000, descripcion: "Este top deportivo cuenta con soporte medio de busto y con detalles únicos como cortes laterales que dejan ver tu piel o la espalda cruzada con cargaderas fijas ¡querrás hacerlo parte de tu armario, e incluso puedes usarlo como parte de tus looks de exterior! Incluye copas removibles para que decidas cómo usarlo, con ellas tu busto se verá más redondeado o sin ellas, más natural. Es parte de la colección co-creada con Silvy Araujo diseñada para que te sientas cómoda en todos tus movimientos.", img: "https://leonisa.co/cdn/shop/products/19AA03_700_1200X1500_1_280x.jpg?v=1688990891", img2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj-NtCSVzSx_bOpnA4bOFz5kE2boWOw0vHulAUCapd0wqqQGBKYUk47dvvwatBtZ_AiXQ&usqp=CAU" })
+        const p2 = new Producto({ id: 2, nombre: "Enterizo deportivo", precio: 20000, descripcion: "Este enterizo deportivo co-creado con Silvy Araujo tiene muchos detalles que te harán decir ¡quiero uno! Su top interno tiene un elástico en la base que le da más soporte a tu busto. Sus cargaderas son delgadas y fijas, y al ser cruzadas en espalda, el enterizo se mantiene en su lugar y tus manos quedan libres durante tus entrenamientos. En los glúteos cuenta con un corte tipo corazón que les da una modelación más redondeada y un efecto de realce. Su tacto es muy suave y su material es de secado rápido para que te sientas fresca todo el tiempo. ¡Muévete sin parar, hazlo con nuestra nueva colección! Incluso, puedes usarlo para salir, como parte de tu look de exterior.", img: "https://leonisa.co/cdn/shop/products/195601_700_1200X1500_1_140x.jpg?v=1687444058", img2: "https://leonisa.co/cdn/shop/products/195601_700_1200X1500_2_140x.jpg?v=1687444058" })
+        //const p2 = new Producto(2, "ryzen 5", 150000, "un producto de gama media", "https://m.media-amazon.com/images/I/51f2hkWjTlL.__AC_SX300_SY300_QL70_ML2_.jpg")
+        const p3 = new Producto({ id: 3, nombre: "Camiseta deportiva", precio: 16000, descripcion: "Te sentirás muy fresca durante y después de tu entrenamiento con esta camiseta deportiva de secado rápido. Es manga sisa, de espalda atlética y de silueta semiajustada, lo cual te permitirá moverte con total libertad. Ideal para combinar con nuestros leggings, shorts y capris deportivos.", img: "https://leonisa.co/cdn/shop/products/195336_410_1200X1500_1_140x.jpg?v=1680534686", img2: "https://leonisa.co/cdn/shop/products/195336_410_1200X1500_2_140x.jpg?v=1680534686" })
+        //const p3 = new Producto(3, "ryzen 7", 300000, "un producto de gama alta", "https://m.media-amazon.com/images/I/51D3DrDmwkL.__AC_SX300_SY300_QL70_ML2_.jpg")
 
 
         this.agregar(p1)
         this.agregar(p2)
         this.agregar(p3)
-
     }
 
     agregar(producto) {

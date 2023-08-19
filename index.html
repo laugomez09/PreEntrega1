@@ -15,80 +15,123 @@
 </head>
 
 <body>
-    <header>
-        <header>
-            <img class="runny"
-                src="https://png.pngtree.com/png-clipart/20210829/original/pngtree-black-run-logo-png-image_6684488.jpg"
-                alt="Logo de la tienda">
-            <nav>
-                <ul>
-                    <li><a href="">Inicio</a></li>
-                    <li><a href="">Masculino</a></li>
-                    <li><a href="">Femenino</a></li>
-                    <li><a href="">Infantil</a></li>
-                    <li><a href="">Unisex</a></li>
-                    <li><a href="">Zapatillas</a></li>
-                </ul>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </button>
-            </nav>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Carrito</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="contenedor_carrito">
-                        </div>
-                        <div>
-                            <p class="text-center" id="total"></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="vaciar_carrito">Vaciar carrito</button>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Seguir
-                                comprando</button>
 
-                            <button type="button" class="btn btn-danger" id="finalizar_compra">Finalizar compra</button>
-                        </div>
+    <header>
+        <img class="runny"
+            src="https://png.pngtree.com/png-clipart/20210829/original/pngtree-black-run-logo-png-image_6684488.jpg"
+            alt="Logo de la tienda">
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="./html/masculino.html">Masculino</a></li>
+                <li><a href="./html/femenino.html">Femenino</a></li>
+                <li><a href="./html/infantil.html">Infantil</a></li>
+                <li><a href="./html/unisex.html">Unisex</a></li>
+                <li><a href="./html/zapatillas.html">Zapatillas</a></li>
+            </ul>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+        </nav>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Carrito</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="contenedor_carrito">
+                    </div>
+                    <div>
+                        <p class="text-center" id="total"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="vaciar_carrito">Vaciar carrito</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Seguir
+                            comprando</button>
+
+                        <button type="button" class="btn btn-danger" id="finalizar_compra">Finalizar compra</button>
                     </div>
                 </div>
             </div>
-        </header>
-        <hr>
-        <main>
-            <h2>¡Descuentos!</h2>
-            <section class="seccion1" id="contenedor_productos">
+        </div>
+    </header>
+    <hr>
+    <main>
+        <h2>¡Descuentos!</h2>
+        <section class="seccion1" id="contenedor_productos">
 
-            </section>
+        </section>
+        <h4 class="titulo_de_informacion">Informacion de la página</h4>
+        <section class="info">
 
-            <section class="seccion1" id="contenedor_productos_dos"></section>
-        </main>
-        <hr>
-        <footer>
-            <img class="runny"
-                src="https://png.pngtree.com/png-clipart/20210829/original/pngtree-black-run-logo-png-image_6684488.jpg"
-                alt="Logo de la tienda">
-        </footer>
-        <!--CDN BOOTSTRAP JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-            crossorigin="anonymous"></script>
-        <!--CDN LUXON JS-->
-        <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.0/build/global/luxon.min.js"></script>
-        <!--CDN TOASTIFY JS-->
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-        <!--CDN SWEET2ALERT-->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <!--APP JS-->
-        <script src="./app.js"></script>
+            <div>
+                <p class="texto">Bienvenidos a nuestra tienda en línea de ropa deportiva: tu destino definitivo para encontrar las
+                    últimas tendencias y marcas en prendas deportivas de alta calidad.
 
-        <!--MI HUMILDE CÓDIGO EN JS-->
-        <script src="./js/app.js"></script>
+                    Nuestra página ofrece una amplia gama de ropa deportiva diseñada para satisfacer las necesidades de
+                    todos los géneros y estilos de vida activos. Con una cuidadosa curaduría de diversas marcas líderes
+                    en la industria, te brindamos acceso a una selección diversa y emocionante de prendas que van desde
+                    lo clásico hasta lo vanguardista.
+
+                    ¿Buscas esa camiseta perfecta para tus entrenamientos intensos o para un día casual de ejercicio al
+                    aire libre? ¿O tal vez necesitas leggings de alto rendimiento que te mantengan cómodo y en
+                    movimiento con confianza? En nuestra página, encontrarás todo lo que necesitas y más. No importa si
+                    eres un apasionado del fitness, un amante del yoga o simplemente disfrutas de una vida activa,
+                    nuestra variedad de opciones asegura que encuentres exactamente lo que se adapte a tu estilo y
+                    preferencias.
+
+                    Lo que nos distingue es nuestra dedicación a la calidad y la autenticidad. Trabajamos con marcas de
+                    renombre que comparten nuestros valores de excelencia y durabilidad. Cada prenda que encuentras en
+                    nuestra página ha sido seleccionada pensando en el confort, la funcionalidad y el diseño,
+                    garantizando que obtengas productos que te ayuden a alcanzar tus metas y expresar tu estilo
+                    personal.
+
+                    Explora nuestra colección en constante evolución y descubre las últimas novedades en moda deportiva.
+                    Desde equipos completos hasta accesorios que complementan tu atuendo, estamos aquí para acompañarte
+                    en tu viaje hacia un estilo de vida activo y saludable. Únete a nosotros y experimenta la emoción de
+                    elegir entre una variedad única de marcas y estilos, todo en un solo lugar.
+
+                    En nuestra página de ropa deportiva, no solo compras ropa, sino que también inviertes en tu
+                    bienestar y confianza. Te damos la bienvenida a un mundo de versatilidad, moda y funcionalidad.
+                    ¡Empieza a explorar hoy mismo y descubre la ropa deportiva que te inspirará a moverte con pasión y
+                    estilo!
+
+                </p>
+            </div>
+            <div>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13110.564455396836!2d-58.4037194!3d-34.7646323!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcd3134199996b%3A0x2221c5d1542e71d4!2sAdidas%20Outlet%20Lomas%20de%20Zamora!5e0!3m2!1ses!2sar!4v1692384591590!5m2!1ses!2sar"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+
+        </section>
+    </main>
+    <hr>
+    <footer>
+        <img class="runny"
+            src="https://png.pngtree.com/png-clipart/20210829/original/pngtree-black-run-logo-png-image_6684488.jpg"
+            alt="Logo de la tienda">
+    </footer>
+    <!--CDN BOOTSTRAP JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+    <!--CDN LUXON JS-->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.0/build/global/luxon.min.js"></script>
+    <!--CDN TOASTIFY JS-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!--CDN SWEET2ALERT-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--APP JS-->
+    <script src="./app.js"></script>
+
+    <!--MI HUMILDE CÓDIGO EN JS-->
+    <script src="./js/app.js"></script>
 </body>
 
 </html>

@@ -1,12 +1,13 @@
 class Producto {
 
-    constructor({ id, nombre, precio, descripcion, img }) {
+    constructor({ id, nombre, precio, descripcion, img, img2 }) {
         this.id = id
         this.nombre = nombre
         this.precio = precio
         this.cantidad = 1
         this.descripcion = descripcion
         this.img = img
+        this.img2 = img2
     }
 
     aumentarCantidad() {
@@ -42,12 +43,29 @@ class Producto {
     }
 
     descripcionHTML() {
-        return `<div class="card"  >
-        <img src="${this.img}" class="card-img-top" alt="...">
+        return `<div class="card">
+        <div id="carouselExample" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="${this.img}" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="${this.img2}" class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
         <div class="card-body">
-            <h2 class="card-title">${this.nombre}</h2>
+            <h3 class="card-title">${this.nombre}</h3>
             <p class="card-text">${this.descripcion}</p>
-            <h3 class="card-text">$${this.precio}</h3>
+            <h4 class="card-text">$${this.precio}</h4>
             <button class="btn btn-primary" id="ap-${this.id}">Añadir al carrito</button>
         </div>
     </div>
@@ -66,41 +84,32 @@ class Carrito {
     }
 
     levantarStorage() {
-        //this._listaCarrito = JSON.parse(localStorage.getItem("listaCarrito")) || []
         this._listaCarrito = JSON.parse(localStorage.getItem(this._keyStorage)) || []
 
         if (this._listaCarrito.length > 0) {
             let listaAuxiliar = []
 
             for (let i = 0; i < this._listaCarrito.length; i++) {
-                //pasa de objeto literal a una instancia de Producto
+
                 let productoDeLaClaseProducto = new Producto(this._listaCarrito[i])
                 listaAuxiliar.push(productoDeLaClaseProducto)
-                //id, nombre, precio, descripcion, img
-                //const element2 = new Producto(this._listaCarrito[i].id, this._listaCarrito[i].nombre, this._listaCarrito[i].precio, this._listaCarrito[i].descripcion, this._listaCarrito[i].img )
+
 
             }
 
             this._listaCarrito = listaAuxiliar
         }
-        /*
-        let listaCarritoJSON = localStorage.getItem("listaCarrito")
-        if(listaCarritoJSON){
-            this._listaCarrito = JSON.parse(listaCarritoJSON)
-        }else{
-            this._listaCarrito = []
-        }
-        */
+
     }
 
     guardarEnStorage() {
         let listaCarritoJSON = JSON.stringify(this._listaCarrito)
-        //localStorage.setItem("listaCarrito", listaCarritoJSON)
+
         localStorage.setItem(this._keyStorage, listaCarritoJSON)
     }
 
     agregar(productoAgregar) {
-        //this._listaCarrito.push(productoAgregar)
+
         let existeElProducto = this._listaCarrito.some(producto => producto.id == productoAgregar.id)
 
         if (existeElProducto) {
@@ -128,14 +137,6 @@ class Carrito {
             this.eliminar(producto)
             this.guardarEnStorage()
             this.mostrarProductos()
-            Toastify({
-                avatar: `${producto.img}`,
-                text: `¡${producto.nombre} se ha eliminado!`,
-                duration: 3000,
-                gravity: "bottom", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-
-            }).showToast();
         })
     }
 
@@ -164,7 +165,7 @@ class Carrito {
             this._contenedor_carrito.innerHTML += producto.descripcionHTMLCarrito()
         })
 
-        //damos evento al botón "Eliminar producto del carrito"
+
         this._listaCarrito.forEach(producto => {
 
             this._eventoBotonEliminarProducto(producto)
@@ -185,19 +186,19 @@ class Carrito {
 
             if (this._listaCarrito.length > 0) {
                 let precio_total = this._calcular_total()
-                //limpiar el carrito
+
                 this._listaCarrito = []
-                //limpiar el storage
+
                 localStorage.removeItem(this._keyStorage)
-                //total
+
                 this._limpiarContenedorCarrito()
                 this._total.innerHTML = ""
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
                     title: `¡La compra se registró con éxito por un total de:  $${precio_total}`,
+                    text: "Para más detalle, revise su e-mail",
                     timer: 3000
-
                 })
 
             } else {
@@ -217,22 +218,6 @@ class Carrito {
             this._limpiarContenedorCarrito()
             localStorage.clear()
             this.mostrarProductos()
-            if (this._listaCarrito.length >= 0){
-                Toastify({
-                    text: `No hay contenido en el carrito para vaciar`,
-                    duration: 3000,
-                    gravity: "bottom",
-                    position: "right",
-                }).showToast()
-            }else{
-                Toastify({
-                    text: `Se ha vaciado el carrito`,
-                    duration: 3000,
-                    gravity: "bottom",
-                    position: "right",
-                })
-
-            }
         })
     }
 }
@@ -244,16 +229,14 @@ class ProductoController {
     }
 
     cargarProductos() {
-        //Instancias de Producto
-        const p1 = new Producto({ id: 1, nombre: "Conjunto Remera Y Short Deportivo", precio: 7000, descripcion: "Conjunto de short y remera de tela set deportivo. Para entrenamiento o practicas de deporte diverso. Muy comodo y estirable", img: "https://http2.mlstatic.com/D_NQ_NP_752644-MLA49141281424_022022-O.webp" })
-        const p2 = new Producto({ id: 2, nombre: "Buzo Nike Dri-Fit Academy", precio: 15000, descripcion: "El Buzo Nike Dri-Fit Academy está pensando para quienes aman combinar un look deportivo y uno casual. Está elaborado en poliéster y se adapta fácilmente a tu cuerpo para acompañarte a donde vayas", img: "https://www.dexter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dw852f334f/products/NI_CW6110-010/NI_CW6110-010-1.JPG" })
-        const p3 = new Producto({ id: 3, nombre: "Pantalón deportivo adiddas Tiro 19", precio: 16000, descripcion: "Este pantalón adidas Tiro te lleva al campo de entrenamiento y más allá. Incorpora la tecnología de absorción AEROREADY que mantiene tu piel seca hasta en los días más intensos.", img: "https://http2.mlstatic.com/D_NQ_NP_661942-MLA42902589147_072020-O.webp" })
 
+        const p1 = new Producto({ id: 1, nombre: "Zapatillas adiddas Lite racer rebold", precio: 40000, descripcion: "Presentamos las Zapatillas Adidas Lite Racer Rebold, la combinación perfecta entre estilo deportivo y comodidad contemporánea. Diseñadas para los amantes de la moda y la actividad física, estas zapatillas ofrecen un equilibrio entre rendimiento y moda, permitiéndote lucir genial mientras te mueves con confianza.", img: "https://www.dexter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dwdb50ad29/products/AD_GW2449/AD_GW2449-6.JPG", img2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHV8Pbh4M9LB0RKmJHb26chOouE3hA4ukKuVLfqLmDSxU97eNx27XlumGnjUQHz7V1CBE&usqp=CAU" })
+        const p2 = new Producto({ id: 2, nombre: "Calzado deportivo flex", precio: 20000, descripcion: "Presentamos el Calzado Deportivo Flex, la elección perfecta para aquellos que buscan combinar estilo y funcionalidad en cada paso. Diseñado para ofrecer flexibilidad y comodidad durante actividades físicas y el día a día, este calzado te permite moverte con confianza y estilo en cualquier situación.", img: "https://estar.com.ar/wp-content/uploads/2020/11/MAXIMO2.png", img2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrajpon0kDqaDVogHcOqsrb-i3O8f7jYOpAHetovCPLlniVxFeuqwfV99oZS2Wg0mbfnA&usqp=CAU" })
+        const p3 = new Producto({ id: 3, nombre: "Air Max `FURYOSA`", precio: 75000, descripcion: "Las Nike Air Max Furyosa son un giro moderno en la icónica línea Air Max. Su diseño innovador presenta líneas audaces y detalles distintivos que llaman la atención y hacen una declaración audaz de estilo. La combinación de colores y la estructura única hacen que estas zapatillas sean inconfundibles.", img: "https://acdn.mitiendanube.com/stores/001/240/717/products/air-max-furyosa-silver-black-11-d2aca39805a37892bc16763858035992-640-0.png", img2: "https://acdn.mitiendanube.com/stores/001/240/717/products/air-max-furyosa-silver-black-31-505786ed653ca2916816763858036292-640-0.png" })
 
         this.agregar(p1)
         this.agregar(p2)
         this.agregar(p3)
-
     }
 
     agregar(producto) {
@@ -261,7 +244,7 @@ class ProductoController {
     }
 
     eventoAgregarAlCarrito() {
-        //damos evento al botón "añadir al carrito"
+
         this.listaProductos.forEach(producto => {
 
             const btn = document.getElementById(`ap-${producto.id}`)
@@ -274,8 +257,8 @@ class ProductoController {
                     avatar: `${producto.img}`,
                     text: `¡${producto.nombre} añadido!`,
                     duration: 3000,
-                    gravity: "bottom", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
+                    gravity: "bottom",
+                    position: "right",
 
                 }).showToast();
             })
@@ -292,15 +275,15 @@ class ProductoController {
     }
 }
 
-//Instancia de Carrito | Es para los productos que el cliente escoja
+
 const carrito = new Carrito()
 carrito.levantarStorage()
 carrito.mostrarProductos()
-//quedan a la escucha del 'click'
+
 carrito.eventoFinalizarCompra()
 carrito.eventoVaciarCarrito()
 
-//Instancia de ProductoController - Gestiona todos los productos, es decir: mostrar, calcularTotal
+
 const controlador_productos = new ProductoController()
 controlador_productos.cargarProductos()
 controlador_productos.mostrarProductos()
