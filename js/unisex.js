@@ -137,6 +137,14 @@ class Carrito {
             this.eliminar(producto)
             this.guardarEnStorage()
             this.mostrarProductos()
+            Toastify({
+                avatar: `${producto.img}`,
+                text: `¡${producto.nombre} se ha eliminado!`,
+                duration: 3000,
+                gravity: "bottom",
+                position: "right",
+
+            }).showToast();
         })
     }
 
@@ -197,7 +205,6 @@ class Carrito {
                     position: 'center',
                     icon: 'success',
                     title: `¡La compra se registró con éxito por un total de:  $${precio_total}`,
-                    text: "Para más detalle, revise su e-mail",
                     timer: 3000
                 })
 
@@ -218,6 +225,22 @@ class Carrito {
             this._limpiarContenedorCarrito()
             localStorage.clear()
             this.mostrarProductos()
+            if (this._listaCarrito.length >= 0){
+                Toastify({
+                    text: `No hay contenido en el carrito para vaciar`,
+                    duration: 3000,
+                    gravity: "bottom",
+                    position: "right",
+                }).showToast()
+            }else{
+                Toastify({
+                    text: `Se ha vaciado el carrito`,
+                    duration: 3000,
+                    gravity: "bottom",
+                    position: "right",
+                })
+
+            }
         })
     }
 }

@@ -132,8 +132,8 @@ class Carrito {
                 avatar: `${producto.img}`,
                 text: `¡${producto.nombre} se ha eliminado!`,
                 duration: 3000,
-                gravity: "bottom", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
+                gravity: "bottom",
+                position: "right",
 
             }).showToast();
         })
@@ -164,7 +164,7 @@ class Carrito {
             this._contenedor_carrito.innerHTML += producto.descripcionHTMLCarrito()
         })
 
-        //damos evento al botón "Eliminar producto del carrito"
+
         this._listaCarrito.forEach(producto => {
 
             this._eventoBotonEliminarProducto(producto)
@@ -185,11 +185,11 @@ class Carrito {
 
             if (this._listaCarrito.length > 0) {
                 let precio_total = this._calcular_total()
-                //limpiar el carrito
+
                 this._listaCarrito = []
-                //limpiar el storage
+
                 localStorage.removeItem(this._keyStorage)
-                //total
+
                 this._limpiarContenedorCarrito()
                 this._total.innerHTML = ""
                 Swal.fire({
@@ -244,7 +244,7 @@ class ProductoController {
     }
 
     cargarProductos() {
-        //Instancias de Producto
+
         const p1 = new Producto({ id: 1, nombre: "Conjunto Remera Y Short Deportivo", precio: 7000, descripcion: "Conjunto de short y remera de tela set deportivo. Para entrenamiento o practicas de deporte diverso. Muy comodo y estirable", img: "https://http2.mlstatic.com/D_NQ_NP_752644-MLA49141281424_022022-O.webp" })
         const p2 = new Producto({ id: 2, nombre: "Buzo Nike Dri-Fit Academy", precio: 15000, descripcion: "El Buzo Nike Dri-Fit Academy está pensando para quienes aman combinar un look deportivo y uno casual. Está elaborado en poliéster y se adapta fácilmente a tu cuerpo para acompañarte a donde vayas", img: "https://www.dexter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dw852f334f/products/NI_CW6110-010/NI_CW6110-010-1.JPG" })
         const p3 = new Producto({ id: 3, nombre: "Pantalón deportivo adiddas Tiro 19", precio: 16000, descripcion: "Este pantalón adidas Tiro te lleva al campo de entrenamiento y más allá. Incorpora la tecnología de absorción AEROREADY que mantiene tu piel seca hasta en los días más intensos.", img: "https://http2.mlstatic.com/D_NQ_NP_661942-MLA42902589147_072020-O.webp" })
@@ -261,7 +261,7 @@ class ProductoController {
     }
 
     eventoAgregarAlCarrito() {
-        //damos evento al botón "añadir al carrito"
+
         this.listaProductos.forEach(producto => {
 
             const btn = document.getElementById(`ap-${producto.id}`)
@@ -274,8 +274,8 @@ class ProductoController {
                     avatar: `${producto.img}`,
                     text: `¡${producto.nombre} añadido!`,
                     duration: 3000,
-                    gravity: "bottom", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
+                    gravity: "bottom",
+                    position: "right",
 
                 }).showToast();
             })
@@ -292,15 +292,13 @@ class ProductoController {
     }
 }
 
-//Instancia de Carrito | Es para los productos que el cliente escoja
+
 const carrito = new Carrito()
 carrito.levantarStorage()
 carrito.mostrarProductos()
-//quedan a la escucha del 'click'
 carrito.eventoFinalizarCompra()
 carrito.eventoVaciarCarrito()
 
-//Instancia de ProductoController - Gestiona todos los productos, es decir: mostrar, calcularTotal
 const controlador_productos = new ProductoController()
 controlador_productos.cargarProductos()
 controlador_productos.mostrarProductos()
