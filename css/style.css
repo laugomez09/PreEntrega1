@@ -1,4 +1,4 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -17,18 +17,18 @@ header {
     gap: 10px;
 }
 
-div{
+div {
     display: flex;
     flex-direction: column;
     text-align: center;
 }
 
-button{
+button {
     display: flex;
     flex-direction: row;
 }
 
-h2{
+h2 {
     color: white;
 }
 
@@ -46,7 +46,7 @@ ul {
     gap: 20px;
 }
 
-li {
+nav ul li {
     background-color: white;
     width: 90px;
     height: 30px;
@@ -56,27 +56,27 @@ li {
 }
 
 
-form{
-    display:flex;
+form {
+    display: flex;
     flex-direction: row;
     align-items: space-around;
 }
 
-.modal-body{
+.modal-body {
     align-items: center;
 }
 
-.row_g-0{
+.row_g-0 {
     text-align: center;
     align-items: center;
 }
 
-.text-center{
+.text-center {
     background-color: black;
     color: white;
 }
 
-hr{
+hr {
     width: 100%;
     height: auto;
     background-color: white;
@@ -86,16 +86,16 @@ hr{
 /* Primer Html*/
 .card {
     width: 18rem;
-    
+
     text-align: center;
 
 }
 
-.carousel-control-next{
+.carousel-control-next {
     background-color: black;
 }
 
-.carousel-control-prev{
+.carousel-control-prev {
     background-color: black;
 }
 
@@ -105,23 +105,86 @@ hr{
     gap: 100px;
 }
 
-.info{
+.info {
     display: flex;
     color: white;
     flex-direction: row;
-    justify-content:  space-around;
-    align-items:  space-between;
+    justify-content: space-around;
+    align-items: space-between;
 }
 
-.titulo_de_informacion{
+.titulo_de_informacion {
     color: white;
     margin: 50px;
 }
 
-iframe{
+iframe {
     width: 400px;
     height: 400px;
 }
-.texto{
+
+.texto {
     width: 700px;
+}
+
+.piedepagina {
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+  }
+
+.youtube {
+    width: 50px;
+    border-radius: 90%;
+}
+
+.youtube:hover {
+    transform: scale(1.5);
+}
+
+
+.tiktok {
+    width: 50px;
+    border-radius: 80%;
+}
+
+.tiktok:hover {
+    transform: scale(1.5);
+}
+
+.instagram {
+    width: 50px;
+    border-radius: 80%;
+}
+
+.instagram:hover {
+    transform: scale(1.5);
+}
+
+.runny_2{
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    object-fit: contain;
+}
+
+.listas{
+    background-color: none;
+}
+
+.apps{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.redes_sociales{
+    text-align: center;
+}
+
+h4{
+    color:  white;
 }

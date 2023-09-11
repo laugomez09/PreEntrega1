@@ -310,3 +310,32 @@ carrito.eventoVaciarCarrito()
 const controlador_productos = new ProductoController()
 controlador_productos.cargarProductos()
 controlador_productos.mostrarProductos()
+
+fetch(`../JSON/masculino.json`)
+    .then(resp => resp.json())
+    .then(Redes_Sociales => {
+        VerApps(Redes_Sociales)
+    })
+
+function VerApps(arr) {
+    const Pie_de_pagina = document.getElementById("redes")
+    arr.forEach(el => {
+        Pie_de_pagina.innerHTML += `
+            <div class:"redes_sociales">
+                <h4>${el.parrafo}</h4>
+                <ul class:"apps" >
+                    <li>
+                        <a href="https://www.youtube.com/@BanfieldOficial" target="_blank"><img class="youtube"
+                            src="${el.youtube}"></a>
+                        <a href="https://www.tiktok.com/@cab_oficial" target="_blank"><img class="tiktok"
+                            src="${el.tiktok}" alt="Logo de Tik tiktok"></a>
+                        <a href="https://www.instagram.com/cab_oficial/?hl=es" target="_blank"><img class="instagram"
+                            src="${el.instagram}" alt="Logo de instagram"></a>
+                    </li>
+                </ul>
+            </div>
+        `
+    }
+    )
+
+}

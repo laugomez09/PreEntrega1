@@ -217,14 +217,14 @@ class Carrito {
             this._limpiarContenedorCarrito()
             localStorage.clear()
             this.mostrarProductos()
-            if (this._listaCarrito.length >= 0){
+            if (this._listaCarrito.length >= 0) {
                 Toastify({
                     text: `No hay contenido en el carrito para vaciar`,
                     duration: 3000,
                     gravity: "bottom",
                     position: "right",
                 }).showToast()
-            }else{
+            } else {
                 Toastify({
                     text: `Se ha vaciado el carrito`,
                     duration: 3000,
@@ -302,3 +302,32 @@ carrito.eventoVaciarCarrito()
 const controlador_productos = new ProductoController()
 controlador_productos.cargarProductos()
 controlador_productos.mostrarProductos()
+
+fetch(`JSON/app.json`)
+    .then(resp => resp.json())
+    .then(Redes_Sociales => {
+        VerApps(Redes_Sociales)
+    })
+
+function VerApps(arr) {
+    const Pie_de_pagina = document.getElementById("redes")
+    arr.forEach(el => {
+        Pie_de_pagina.innerHTML += `
+            <div class:"redes_sociales">
+                <h4>${el.parrafo}</h4>
+                <ul class:"apps" >
+                    <li>
+                        <a href="https://www.youtube.com/@BanfieldOficial" target="_blank"><img class="youtube"
+                            src="${el.youtube}"></a>
+                        <a href="https://www.tiktok.com/@cab_oficial" target="_blank"><img class="tiktok"
+                            src="${el.tiktok}" alt="Logo de Tik tiktok"></a>
+                        <a href="https://www.instagram.com/cab_oficial/?hl=es" target="_blank"><img class="instagram"
+                            src="${el.instagram}" alt="Logo de instagram"></a>
+                    </li>
+                </ul>
+            </div>
+        `
+    }
+    )
+
+}
